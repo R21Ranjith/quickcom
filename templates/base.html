@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}QuickCom - Innovation in Technology{% endblock %}</title>
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+
+    <!-- Tailwind -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#5736ff',
+                        secondary: '#6e7bff',
+                        darkbg: '#0f0f18',
+                        darkcard: '#1b1b26'
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        * {
+            transition: background-color .25s, color .25s, border-color .25s;
+        }
+    </style>
+
+    <!-- Theme Handler -->
+    <script>
+        function setTheme(mode) {
+            const doc = document.documentElement;
+            if (mode === "dark") {
+                doc.classList.add("dark");
+                localStorage.setItem("darkMode", "true");
+            } else {
+                doc.classList.remove("dark");
+                localStorage.setItem("darkMode", "false");
+            }
+        }
+
+        function toggleDarkMode() {
+            const currentlyDark = document.documentElement.classList.contains("dark");
+            setTheme(currentlyDark ? "light" : "dark");
+            updateThemeIcon();
+        }
+
+        function updateThemeIcon() {
+            const icon = document.getElementById("themeIcon");
+            if (icon) {
+                icon.textContent = document.documentElement.classList.contains("dark") ? "☀️" : "🌙";
+            }
+        }
+
+        document.addEventListener("DOMContentLoaded", () => {
+            const saved = localStorage.getItem("darkMode");
+            setTheme(saved === "true" ? "dark" : "light");
+            updateThemeIcon();
+        });
+    </script>
+</head>
+
+<body class="bg-gray-50 dark:bg-darkbg text-gray-900 dark:text-gray-200">
+
+    {% include 'navbar.html' %}
+
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-4">
+                {% for category, message in messages %}
+                    <div class="bg-{{ 'green' if category == 'success' else 'blue' if category == 'info' else 'red' }}-100 
+                                border border-{{ 'green' if category == 'success' else 'blue' if category == 'info' else 'red' }}-400
+                                text-{{ 'green' if category == 'success' else 'blue' if category == 'info' else 'red' }}-700 
+                                px-4 py-3 rounded mb-4">
+                        {{ message }}
+                    </div>
+                {% endfor %}
+            </div>
+        {% endif %}
+    {% endwith %}
+
+    {% block content %}{% endblock %}
+
+    <footer class="bg-gray-900 text-white mt-20">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+
+                <div>
+                    <div class="flex items-center space-x-3 mb-4">
+                        <img src="{{ url_for('static', filename='images/logo.jpg') }}"
+                             alt="QuickCom Logo"
+                             class="w-10 h-10 rounded-full object-cover shadow-lg">
+                        <span class="text-xl font-bold">QuickCom</span>
+                    </div>
+                    <p class="text-gray-400 text-sm">
+                        Innovating technology solutions across multiple domains.
+                    </p>
+                </div>
+
+                <div>
+                    <h3 class="font-semibold mb-4">Quick Links</h3>
+                    <ul class="space-y-2 text-sm text-gray-400">
+                        <li><a href="{{ url_for('home') }}" class="hover:text-white transition">Home</a></li>
+                        <li><a href="{{ url_for('my_projects') }}" class="hover:text-white transition">Projects</a></li>
+                        <li><a href="{{ url_for('about') }}" class="hover:text-white transition">About</a></li>
+                        <li><a href="{{ url_for('contact') }}" class="hover:text-white transition">Contact</a></li>
+                    </ul>
+                </div>
+
+                <div>
+                    <h3 class="font-semibold mb-4">Domains</h3>
+                    <ul class="space-y-2 text-sm text-gray-400">
+                        <li><a href="{{ url_for('my_projects', domain='electronics') }}" class="hover:text-white transition">Electronics</a></li>
+                        <li><a href="{{ url_for('my_projects', domain='computer') }}" class="hover:text-white transition">Computer Science</a></li>
+                        <li><a href="{{ url_for('my_projects', domain='machinelearning') }}" class="hover:text-white transition">Machine Learning</a></li>
+                        <li><a href="{{ url_for('my_projects', domain='datascience') }}" class="hover:text-white transition">Data Science</a></li>
+                    </ul>
+                </div>
+
+                <div>
+                    <h3 class="font-semibold mb-4">Connect</h3>
+                    <ul class="space-y-2 text-sm text-gray-400">
+                        <li>Email: ranjithrk2111@gmail.com</li>
+                        <li>Phone: +91 6379389912</li>
+                        <li>Location: Chennai</li>
+                    </ul>
+                </div>
+
+            </div>
+
+            <div class="border-t border-gray-800 mt-8 pt-8 text-center text-sm text-gray-400">
+                <p>&copy; 2024 QuickCom. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+</body>
+</html>

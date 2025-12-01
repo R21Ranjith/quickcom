@@ -1,0 +1,48 @@
+
+{% extends "base.html" %}
+
+{% block title %}{{ category.name }} - QuickCom{% endblock %}
+
+{% block content %}
+<section class="bg-gradient-to-r from-purple-600 to-indigo-600 text-white py-16">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+        <div class="text-6xl mb-4">{{ category.icon }}</div>
+        <h1 class="text-4xl font-bold mb-4">{{ category.name }}</h1>
+        <p class="text-xl text-purple-100">Explore projects in this category</p>
+    </div>
+</section>
+
+<main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+        {% for project in projects %}
+        <div class="bg-white rounded-xl shadow-sm p-6 border border-gray-200 hover:shadow-lg transition-all">
+            <div class="mb-4">
+                <span class="inline-block px-3 py-1 bg-purple-100 text-purple-700 text-xs font-medium rounded-full">
+                    {{ project.category }}
+                </span>
+            </div>
+            
+            <h3 class="text-lg font-semibold text-gray-900 mb-4 h-20 overflow-hidden">
+                {{ project.title }}
+            </h3>
+
+            <div class="flex flex-wrap gap-2 mb-4">
+                {% for tag in project.tags %}
+                <span class="px-2 py-1 bg-gray-100 text-gray-600 text-xs rounded">
+                    {{ tag }}
+                </span>
+                {% endfor %}
+            </div>
+
+            <div class="flex items-center justify-between pt-4 border-t border-gray-100">
+                <span class="text-purple-600 font-semibold">{{ project.id }}</span>
+                <a href="{{ url_for('view_project', project_id=project.id) }}" class="text-purple-600 hover:text-purple-700 font-medium text-sm">
+                    View Details →
+                </a>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</main>
+{% endblock %}
+

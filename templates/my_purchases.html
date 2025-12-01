@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+
+{% block title %}My Purchases - QuickCom{% endblock %}
+
+{% block content %}
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+    <h1 class="text-4xl font-bold text-gray-900 mb-8">My Purchases</h1>
+    
+    {% if purchases %}
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {% for purchase in purchases %}
+            <div class="bg-white rounded-xl shadow-lg p-6 border border-gray-200">
+                <div class="mb-4">
+                    <span class="inline-block px-3 py-1 bg-green-100 text-green-700 text-xs font-medium rounded-full">
+                        Purchased
+                    </span>
+                    <span class="inline-block px-3 py-1 bg-purple-100 text-purple-700 text-xs font-medium rounded-full ml-2">
+                        {{ purchase.category }}
+                    </span>
+                </div>
+                
+                <h3 class="text-lg font-semibold text-gray-900 mb-2">{{ purchase.title }}</h3>
+                <p class="text-sm text-gray-600 mb-4">{{ purchase.description }}</p>
+                
+                <div class="flex items-center justify-between pt-4 border-t">
+                    <span class="text-purple-600 font-semibold">${{ purchase.price }}</span>
+                    <button class="bg-gradient-to-r from-purple-600 to-indigo-600 text-white px-4 py-2 rounded-lg text-sm font-semibold hover:shadow-lg transition">
+                        Download
+                    </button>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    {% else %}
+        <div class="bg-white rounded-xl shadow-lg p-12 text-center">
+            <div class="text-6xl mb-4">🛍️</div>
+            <h2 class="text-2xl font-bold text-gray-900 mb-2">No Purchases Yet</h2>
+            <p class="text-gray-600 mb-6">You haven't purchased any projects yet. Start exploring!</p>
+            <a href="{{ url_for('my_projects') }}" class="inline-block bg-gradient-to-r from-purple-600 to-indigo-600 text-white px-8 py-3 rounded-lg font-semibold hover:shadow-lg transition">
+                Browse Projects
+            </a>
+        </div>
+    {% endif %}
+</div>
+{% endblock %}
